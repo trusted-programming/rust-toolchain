@@ -1,0 +1,20 @@
+[package]
+name = "rust_build_demo_benchcmp"
+version = "0.1.0"
+authors = ["surechen <surechen17@gmail.com>"]
+edition = "2018"
+license = "MIT"
+readme = "README.md"
+description = ""
+default-run = "rust_build_demo_benchcmp"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rand = "0.7.3"
+
+[dev-dependencies]
+
+[[bin]]
+name = "rust_build_demo_benchcmp"
+path = "src/main.rs"

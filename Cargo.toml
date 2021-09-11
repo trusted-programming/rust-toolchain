@@ -1,0 +1,40 @@
+[package]
+name = "rust_build_demo1"
+version = "0.1.0"
+authors = ["surechen <surechen17@gmail.com>"]
+edition = "2018"
+license = "MIT"
+readme = "README.md"
+description = ""
+default-run = "rust_build_demo1"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+dangerous="0.9"
+[target.'cfg(target_os = "linux")'.dependencies]
+honggfuzz = "0.5"
+#tokio-rustls = {version = "0.12.1"}
+#async-std = {version="1.9"}
+#semval="0.1.7"
+abi_stable = "0.8"
+#[target.'cfg(loom)'.dependencies]
+#loom = "0.4"
+[dev-dependencies]
+criterion = "0.3"
+mockall = "0.9.1"
+#mockiato ="0.9.5"
+proptest = "1.0.0"
+quickcheck = "1"
+
+[[bench]]
+harness = false
+name = "my_benchmark"
+
+[[bin]]
+name = "honggfuzz"
+path = "src/toolsbox/toolhonggfuzz/toolhonggfuzz.rs"
+
+[[bin]]
+name = "rust_build_demo1"
+path = "src/main.rs"
