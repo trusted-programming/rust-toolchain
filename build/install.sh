@@ -14,17 +14,15 @@ echo -e "安装 rustc组件\n"
 # 安装clippy
 rustup component add rustc-dev rust-src clippy rustfmt miri llvm-tools-preview
 rm -rf workplace
+rm -rf ../target/
 mkdir workplace
 unset RUSTFLAGS RUSTDOCFLAGS
 echo -e "\n\n\n"
 echo -e "#####################################环境准备 end#####################################\n\n\n"
 
-echo -e "####################################依赖检查####################################\n\n\n"
+echo -e "####################################依赖检查安装####################################\n\n\n"
 echo -e "cargo-supply-chain:  crate发布者信息查询，执行慢，暂时关闭\n"
-#cargo install cargo-supply-chain
-#cargo supply-chain update
-#cargo supply-chain crates
-#cargo supply-chain publishers
+cargo install cargo-supply-chain
 echo -e "\n\n\n"
 
 echo -e "cargo-geiger:  统计项目使用到的crates的unsafe代码片段信息\n"
