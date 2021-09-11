@@ -1,0 +1,26 @@
+
+[package]
+name = "rust_build_demo1-fuzz"
+version = "0.0.0"
+authors = ["Automatically generated"]
+publish = false
+edition = "2018"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+
+[dependencies.rust_build_demo1]
+path = ".."
+
+# Prevent this from interfering with workspaces
+[workspace]
+members = ["."]
+
+[[bin]]
+name = "build_demo"
+path = "fuzz_targets/build_demo.rs"
+test = false
+doc = false

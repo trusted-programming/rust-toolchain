@@ -1,0 +1,82 @@
+language: rust
+os:
+  - linux
+rust:
+  - nightly
+script:
+  - cargo -V
+  - rustc -V
+  - rustup install stable
+  - rustup component add rustfmt
+  - rustup component add clippy
+  - cargo build --verbose --workspace
+  - cargo test --verbose --workspace
+# crate发布者信息查询
+#  - cargo install cargo-supply-chain
+#  - cargo supply-chain update
+#  - cargo supply-chain crates
+#  - cargo supply-chain publishers
+# 统计项目使用到的crates的unsafe代码片段信息
+  - cargo install --locked cargo-geiger
+  - cargo geiger || true
+# 跟踪和查询crates依存关系图
+#  - cargo install cargo-tree
+#  - cargo tree
+# 代码行数统计
+#  - cargo install tokei
+#  - tokei
+# 检查Cargo.toml中未使用的依赖
+#  - cargo +stable install cargo-udeps --locked --force || true
+#  - cargo +nightly udeps --all-targets || true
+# 通过advisory-db进行漏洞检查
+  - cargo +stable install --locked  cargo-audit || true
+  - cargo audit || true
+# 代码格式化检查
+  - cargo fmt -- --check
+# 语法检查
+  - cargo clippy
+# cargo deny配置在deny.toml，根据配置禁用crate，包含crate源位置、license、漏洞
+  - cargo install --locked cargo-deny
+  - cargo deny check || true
+# 检查unwrap函数
+  - cargo install --git https://github.com/hhatto/cargo-strict.git
+  - cargo strict
+# 检查各个函数在可执行文件的空间占用百分比
+#  - cargo install cargo-bloat
+#  - cargo bloat --release --crates
+# 计算泛型函数所有实例化中LLVM IR的行数
+#  - cargo install cargo-llvm-lines
+#  - cargo llvm-lines | head -20
+# license检查
+#  - cargo install cargo-license
+#  - cargo license
+# cargo 依赖的crates是否有新版本
+#  - cargo install cargo-outdated
+#  - cargo outdated || true
+# cargo doc中损坏的链接检查
+  - cargo install cargo-deadlinks
+  - cargo deadlinks
+  - cargo deadlinks --check-http
+# 检查损坏的链接
+#  - cargo install mlc
+#  - mlc
+# 给程序画像
+#  - sudo apt-get install valgrind || true
+#  - cargo install cargo-profiler || true
+#  - cargo profiler callgrind || true
+#  - cargo profiler cachegrind --release || true
+# cargo-tarpaulin 只支持x86上的linux系统
+#  - cargo install cargo-tarpaulin
+#  - cargo tarpaulin --all  --all-features || true
+# cargo-fuzz模糊测试
+  - cargo install cargo-fuzz
+  - cargo fuzz run build_demo || true
+# 性能检测
+#  - cargo install cargo-benchcmp
+#  - cargo bench > 1.txt
+# 运用修改后的性能
+#  - cargo bench > 2.txt
+#  - cargo benchcmp 1.txt 2.txt
+# 宏展开工具
+#  - cargo install cargo-expand
+#  - cargo expand --bin rust_build_demo1
