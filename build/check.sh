@@ -8,8 +8,6 @@ echo -e "cargo-supply-chain:  crate发布者信息查询，执行慢，暂时关
 echo -e "\n\n\n"
 
 echo -e "cargo-geiger:  统计项目使用到的crates的unsafe代码片段信息\n"
-# 需要正确安装openssl
-#cargo install --locked cargo-geiger
 cargo geiger > workplace/cargo-geiger.txt 2>&1 || true
 echo -e "\n\n\n"
 
@@ -36,6 +34,7 @@ echo -e "\n\n\n"
 
 echo -e "cargo-license:  license信息展示\n"
 cargo license > workplace/cargo-license.txt 2>&1
+echo -e "\n\n\n"
 
 echo -e "cargo-outdated:  cargo 依赖的crates是否有新版本\n"
 cargo outdated > workplace/cargo-outdated.txt 2>&1 || true
@@ -45,9 +44,9 @@ echo -e "####################################依赖检查 end###################
 echo -e "\n\n\n"
 
 echo -e "####################################漏洞检查####################################\n\n\n"
-# 拉取advisory-db有时候会失败
+# 拉取漏洞数据库advisory-db有时候会失败,此处用本地已经下载好的advisory-db
 echo -e "cargo-audit: 从advisory-db搜索并打印项目依赖的crates的漏洞信息\n"
-cargo audit --db /usr/local/src/rust/advisory-db --no-fetch > workplace/cargo-audit.txt 2>&1 || true
+cargo audit --db ./advisory-db --no-fetch > workplace/cargo-audit.txt 2>&1 || true
 echo -e "\n\n\n"
 echo -e "####################################漏洞检查 end####################################\n\n\n"
 
@@ -117,7 +116,7 @@ sed -i "s:${sanitizer_stack_use_after_scope_before}:${sanitizer_stack_use_after_
 cargo +nightly run --target x86_64-unknown-linux-gnu > workplace/cargo-sanitizer_stack_use_after_scope.txt 2>&1 || true
 sed -i "s:${sanitizer_stack_use_after_scope_check}:${sanitizer_stack_use_after_scope_before}:" src/main.rs
 
-# LeakSanitizer待补充
+# LeakSanitizer待补充展示例子
 export RUSTFLAGS='-Zsanitizer=leak'
 export RUSTDOCFLAGS='-Zsanitizer=leak'
 
@@ -143,6 +142,7 @@ unset RUSTFLAGS RUSTDOCFLAGS
 echo -e "\n\n\n"
 
 echo -e "rust-semverver:  合规性检查\n"
+# 待确定该软件用途
 #cargo +nightly-2021-07-23 semver
 echo -e "\n\n\n"
 
@@ -153,7 +153,7 @@ echo -e "####################################度量#############################
 echo -e "rust-code-analysis:  代码度量\n"
 build_demo_path=`pwd`
 # 支持的输出格式为 json toml cbor yaml
-rust-code-analysis-cli -m -O yaml  -p ${build_demo_path}/src  > workplace/cargo-rust-code-analysis.txt 2>&1 || true
+./rust-code-analysis/target/debug/rust-code-analysis-cli -m -O yaml  -p ${build_demo_path}/src  > workplace/cargo-rust-code-analysis.txt 2>&1 || true
 echo -e "\n\n\n"
 
 echo -e "tokei:  代码行数统计\n"
@@ -179,9 +179,7 @@ echo -e "\n\n\n"
 
 echo -e "grcov:  代码覆盖率\n"
 # grcov
-#cargo install grcov
-# How to generate source-based coverage for a Rust project
-# 需要重新使用nightly版编译
+# 需要重新使用nightly版编译，使用编译选项-Zinstrument-coverage生成带覆盖率的编译结果
 unset RUSTFLAGS RUSTDOCFLAGS
 export RUSTFLAGS="-Zinstrument-coverage"
 rustup default nightly
@@ -199,8 +197,7 @@ cargo test > /dev/null 2>&1
 # .gcda in target/debug/deps/ dir
 #grcov . -s . --binary-path ./target/debug/ -t html --branch --ignore-not-existing -o ./target/debug/coverage/
 # the report in target/debug/coverage/index.html
-rm workplace/lcov.info
-grcov . -s . --binary-path ./target/debug/ -t lcov --branch --ignore-not-existing -o workplace/lcov.info
+rm workplace/lcov.info && grcov . -s . --binary-path ./target/debug/ -t lcov --branch --ignore-not-existing -o workplace/lcov.info
 genhtml -o ./target/debug/coverage/ --show-details --highlight --ignore-errors source --legend workplace/lcov.info > workplace/cargo-grcov.txt 2>&1 || true
 # coveralls format
 #grcov . --binary-path ./target/debug/ -t coveralls -s . --token YOUR_COVERALLS_TOKEN > coveralls.json
@@ -220,12 +217,8 @@ cargo hfuzz run honggfuzz > workplace/cargo-honggfuzz.txt 2>&1 || true
 echo -e "\n\n\n"
 
 echo -e "cargo-benchcmp:  性能检测结果对比\n"
-cd benchcmp
-cargo +nightly bench > 1.txt
-# 运用修改
-cargo +nightly bench > 2.txt
-cargo benchcmp 1.txt 2.txt > ../workplace/cargo-benchcmp.txt 2>&1 || true
-cd ..
+cd benchcmp && cargo +nightly bench > 1.txt && cargo +nightly bench > 2.txt
+cargo benchcmp 1.txt 2.txt > ../workplace/cargo-benchcmp.txt 2>&1 && cd ..
 echo -e "\n\n\n"
 
 # mock测试，已添加代码，可直接使用cargo test执行
@@ -336,6 +329,6 @@ echo -e "\n\n\n"
 echo -e "cargo-bindgen：  根据.h头文件生成bingding文件\n"
 #bindgen ./src/toolsbox/bindgen/input.h -o bindings.rs
 echo -e "\n\n\n"
-echo -e "################################辅助开发和运维工具 end################################\n\n\n"
 
+echo -e "################################辅助开发和运维工具 end################################\n\n\n"
 
