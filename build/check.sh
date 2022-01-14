@@ -332,3 +332,19 @@ echo -e "\n\n\n"
 
 echo -e "################################辅助开发和运维工具 end################################\n\n\n"
 
+
+echo -e "################################调试工具################################\n\n\n"
+
+echo -e "perf执行\n"
+cargo build --release
+perf record -g target/release/rust_build_demo1
+perf report > workplace/perf-report.txt 2>&1
+echo -e "\n\n\n"
+
+echo -e "cargo flamegraph执行\n"
+# 生成flamegraph.svg
+cargo flamegraph -b rust_build_demo1
+echo -e "\n\n\n"
+
+
+echo -e "################################调试工具 end################################\n\n\n"

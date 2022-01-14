@@ -247,9 +247,21 @@ cargo install cargo-script
 echo -e "\n\n\n"
 
 echo -e "cargo-bindgen：  根据.h头文件生成bingding文件\n"
-#cargo install bindgen
+# cargo install bindgen
 echo -e "\n\n\n"
 
 echo -e "################################安装辅助开发和运维工具 end################################\n\n\n"
 
+echo -e "################################调试工具################################\n\n\n"
 
+echo -e "安装perf所在的工具集合 \n"
+sudo apt install linux-tools-common
+echo -e "\n\n\n"
+
+# 值得关注的项目 github llogiq/flame
+echo -e "安装flamegraph所在的工具集合 \n"
+sudo apt install linux-tools-common linux-tools-generic linux-tools-`uname -r`
+cargo install flamegraph
+echo -e "\n\n\n"
+
+echo -e "################################调试工具 end################################\n\n\n"

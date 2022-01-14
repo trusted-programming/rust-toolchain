@@ -31,6 +31,13 @@ quickcheck = "1"
 harness = false
 name = "my_benchmark"
 
+[profile.release]
+debug = true
+
+[target.x86_64-unknown-linux-gnu]
+linker = "/usr/bin/clang"
+rustflags = ["-Clink-arg=-fuse-ld=lld", "-Clink-arg=-Wl,--no-rosegment"]
+
 [[bin]]
 name = "honggfuzz"
 path = "src/toolsbox/toolhonggfuzz/toolhonggfuzz.rs"
