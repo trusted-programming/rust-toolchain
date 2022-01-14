@@ -124,6 +124,12 @@ fn main() {
 
     }
 
+    // 测试cargo flamegraph
+    // let a = [3; 1000];
+    // for i in &a {
+    //     println!("flamegraph test {:?}", i);
+    // }
+
     // let s = "Hello world";  /* .unwrap() */
     // let _ = s.find("wo").unwrap();
     // // let _ = s.find("wo").unwrap();
