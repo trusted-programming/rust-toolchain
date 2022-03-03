@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir workplace
+
 echo -e "####################################依赖检查####################################\n\n\n"
 echo -e "cargo-supply-chain:  crate发布者信息查询，执行慢，暂时关闭\n"
 #cargo supply-chain update
@@ -46,7 +48,7 @@ echo -e "\n\n\n"
 echo -e "####################################漏洞检查####################################\n\n\n"
 # 拉取漏洞数据库advisory-db有时候会失败,此处用本地已经下载好的advisory-db
 echo -e "cargo-audit: 从advisory-db搜索并打印项目依赖的crates的漏洞信息\n"
-cargo audit --db ./advisory-db --no-fetch > workplace/cargo-audit.txt 2>&1 || true
+cargo audit --db ./build/advisory-db --no-fetch > workplace/cargo-audit.txt 2>&1 || true
 echo -e "\n\n\n"
 echo -e "####################################漏洞检查 end####################################\n\n\n"
 
@@ -336,6 +338,8 @@ echo -e "################################辅助开发和运维工具 end########
 echo -e "################################调试工具################################\n\n\n"
 
 echo -e "perf执行\n"
+apt install -y linux-tools-4.15.0-45-generic
+apt install -y linux-cloud-tools-4.15.0-45-generic
 cargo build --release
 perf record -g target/release/rust_build_demo1
 perf report > workplace/perf-report.txt 2>&1
