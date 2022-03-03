@@ -12,7 +12,8 @@ echo -e "安装 rustc组件\n"
 # rustc-dev，包含hir和ast解析相关的crate
 # 安装rustfmt
 # 安装clippy
-rustup component add rustc-dev rust-src clippy rustfmt miri llvm-tools-preview
+rustup component add rustc-dev rust-src clippy rustfmt llvm-tools-preview
+rustup +nightly component add miri
 rm -rf workplace
 rm -rf ../target/
 mkdir workplace
@@ -37,7 +38,7 @@ echo -e "\n\n\n"
 
 echo -e "cargo-deps:  软件依赖图\n"
 cargo install cargo-deps
-sudo apt install graphviz
+sudo apt install -y graphviz
 echo -e "\n\n\n"
 
 echo -e "cargo-depgraph:  软件依赖图\n"
@@ -50,7 +51,7 @@ echo -e "\n\n\n"
 
 echo -e "cargo-modules: 显示crates概述信息\n"
 # cargo-modules
-cargo install cargo-modules1
+cargo install cargo-modules
 echo -e "\n\n\n"
 
 echo -e "cargo-license:  license信息展示\n"
@@ -92,6 +93,7 @@ cargo install mlc
 echo -e "\n\n\n"
 
 echo -e "cargo-spellcheck: 检查拼写或语法错误\n"
+sudo apt-get install -y libclang-dev
 cargo install cargo-spellcheck
 echo -e "\n\n\n"
 
@@ -101,7 +103,7 @@ echo -e "####################################安装动态检查工具###########
 echo -e "cargo-profiler：  给程序画像\n"
 # 程序画像，根据函数调用和cache访问的信息，分析问题
 # 只限于linux
-sudo apt-get install valgrind
+sudo apt-get install -y valgrind
 cargo install cargo-profiler
 echo -e "\n\n\n"
 
@@ -139,7 +141,7 @@ echo -e "\n\n\n"
 
 echo -e "cargo-kcov:  代码覆盖率检查kcov\n"
 cargo install cargo-kcov || true
-sudo apt-get install cmake g++ pkg-config jq libssl-dev libcurl4-openssl-dev libelf-dev libdw-dev binutils-dev libiberty-dev || true
+sudo apt-get install -y cmake g++ pkg-config jq libssl-dev libcurl4-openssl-dev libelf-dev libdw-dev binutils-dev libiberty-dev || true
 cargo kcov --print-install-kcov-sh | sh || true
 echo -e "\n\n\n"
 
@@ -161,7 +163,7 @@ cargo +nightly fuzz run build_demo > workplace/cargo-fuzz.txt 2>&1 || true
 echo -e "\n\n\n"
 
 echo -e "honggfuzz模糊测试\n"
-apt install build-essential binutils-dev libunwind-dev libblocksruntime-dev liblzma-dev || true
+apt install -y build-essential binutils-dev libunwind-dev libblocksruntime-dev liblzma-dev || true
 cargo install honggfuzz || true
 echo -e "\n\n\n"
 
@@ -260,7 +262,7 @@ echo -e "\n\n\n"
 
 # 值得关注的项目 github llogiq/flame
 echo -e "安装flamegraph所在的工具集合 \n"
-sudo apt install linux-tools-common linux-tools-generic linux-tools-`uname -r`
+sudo apt install -y linux-tools-common linux-tools-generic linux-tools-`uname -r`
 cargo install flamegraph
 echo -e "\n\n\n"
 
