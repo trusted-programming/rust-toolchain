@@ -1,11 +1,8 @@
 # Trusted Rust toolchain
-Trusted toolchain for end-to-end development, build, check, and test of Rust at scale.
+This project collects Rust end-to-end development, build, check, and test tools through the open source community, and provides examples and scripts for the continuous integration platform, helping users quickly use Rust for development.
+The ultimate goal of this project is to establish a complete trusted tool chain for the Rust project.
 
-The purpose of this project is to collect useful Rust end-to-end development, build, check, and test tools in the open source community, and provide examples and scripts for continue integration platform. The current goal is to help users quickly use Rust to develop trusted service or fearlessly refactor existing software using Rust. 
-
-The ultimate goal is a health evaluation system for the Rust project.
-
-There is no doubt that this project is in a very early stage, any issue, use, or contribution is very welcome.
+There is no doubt that the project is still in its very early stages and any questions, uses or contributions are very welcome.
 
 ## Build
 
